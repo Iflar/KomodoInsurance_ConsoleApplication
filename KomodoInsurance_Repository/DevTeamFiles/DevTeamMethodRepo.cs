@@ -15,6 +15,7 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
         public void AddDeveloperToTeam(Developer developer)
         {
             //This method will add a developer into the team
+            Console.WriteLine("test");
             
         }
         public void RemoveDeveloperFromTeam(Developer developer)

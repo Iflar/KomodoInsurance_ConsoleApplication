@@ -28,7 +28,7 @@ namespace KomodoInsurance_Repository
             }
         }
 
-        /*Empty constructor*/
+        /*basic constructor*/
         public Developer(DevTeam devTeam)
         {
             DeveloperID = GetDevTeamDictionaryCount(devTeam);

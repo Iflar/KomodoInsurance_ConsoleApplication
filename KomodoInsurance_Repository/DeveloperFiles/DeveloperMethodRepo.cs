@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KomodoInsurance_Repository.DeveloperTeamFiles;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,26 @@ namespace KomodoInsurance_Repository.DeveloperFiles
 {
     public class DeveloperMethodRepo
     {
-        public void CreateDeveloper()
+        public bool CreateDeveloper(Developer developer, DevTeam team)
         {
-            //Creates a developer object and returns it
+            //Creates a developer object
+            if (developer != null && team != null)
+            {
+                developer = new Developer(team);
+                return true;
+            }
+            else { return false; }
+        }
+        public void UpdateDeveloperInfo(Developer developer)
+        {
+            //Takes in a developerID and updates any of it's information
+
         }
 
-        public void UpdateDeveloperInfo()
+        /*Helper method for UpdateDeveloperInfo*/
+        public int AcquireDeveloperByID()
         {
-            //Takes in an developer object and updates any of it's information
+            return 0;
         }
         public void RemoveDeveloper()
         {
