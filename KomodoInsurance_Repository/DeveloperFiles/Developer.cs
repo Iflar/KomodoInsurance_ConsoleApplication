@@ -29,15 +29,13 @@ namespace KomodoInsurance_Repository
         }
 
         /*basic constructor*/
-        public Developer(DevTeam devTeam)
-        {
-            DeveloperID = GetDevTeamDictionaryCount(devTeam);
-        }
+        public Developer() { }
 
         /*Overloaded constructor*/
-        public Developer(int developerID, string firstName, string lastName, int age, Gender gender, Role devRole, DateTime dateJoinedTeam, DevTeam devTeam)
+        public Developer(int developerID, string firstName, string lastName, int age, Gender gender, Role devRole, DateTime dateJoinedTeam, bool isTeamLead)
         {
-            DeveloperID = GetDevTeamDictionaryCount(devTeam);
+
+            DeveloperID = developerID;
             FirstName = firstName;
             LastName = lastName;
             Age = age;

@@ -9,7 +9,6 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
     public class DevTeam
     {
         public string TeamName { get; set; }
-        public Developer TeamLead { get; set; }
         public Dictionary<int, Developer> DevDictionary { get; set; }
         public int NumDevelopersInTeam
         {
@@ -26,10 +25,9 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
         }
 
         /*Overloaded constructor*/
-        public DevTeam(string teamName, Developer teamLead)
+        public DevTeam(string teamName)
         {
             TeamName = teamName;
-            TeamLead = teamLead;
 
             DevDictionary = new Dictionary<int, Developer>();
         }

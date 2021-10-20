@@ -9,27 +9,28 @@ namespace KomodoInsurance_Repository.DeveloperFiles
 {
     public class DeveloperMethodRepo
     {
-        public bool CreateDeveloper(Developer developer, DevTeam team)
+
+        public bool CreateDeveloper(DevTeam team) /*A DevTeam object is requiered to make a new Developer - I'd like to change this. */
         {
-            //Creates a developer object
-            if (developer != null && team != null)
+            if (team != null)
             {
-                developer = new Developer(team);
+                Developer developer = new Developer();
                 return true;
             }
-            else { return false; }
+            return false;
         }
+        
         public void UpdateDeveloperInfo(Developer developer)
         {
             //Takes in a developerID and updates any of it's information
 
         }
-
         /*Helper method for UpdateDeveloperInfo*/
         public int AcquireDeveloperByID()
         {
             return 0;
         }
+
         public void RemoveDeveloper()
         {
             //Removes a developer from the company -- will automaticallty remove them from any team they are in

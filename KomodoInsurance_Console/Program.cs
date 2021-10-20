@@ -28,6 +28,9 @@ namespace KomodoInsurance_Console
                 - basic qualities that make up a person -- first and last name, age, gender, years of exp.
 
                 - Role on the team (excluding lead position... mabey) - this will be an enum - QA, UX, Front end, Back end
+
+                - due to the fact that our Developer objects require a dev team in order to be creaated - we will have
+                    a 'DevTeam' called "Unassigned" this will be the default team all developers are put in whne created.
         ------------------------------------------------------------------------------------------------------------------------------------------------
             | Dev Team
                 - will havea Dictionary prop that contains the developers
