@@ -1,4 +1,5 @@
-﻿using KomodoInsurance_Repository.DeveloperFiles;
+﻿using KomodoInsurance_Repository;
+using KomodoInsurance_Repository.DeveloperFiles;
 using KomodoInsurance_Repository.DeveloperTeamFiles;
 using System;
 using System.Collections.Generic;
@@ -15,11 +16,15 @@ namespace KomodoInsurance_Console
             DevTeamMethodRepo _teamRepo = new DevTeamMethodRepo();
             DeveloperMethodRepo _devRepo = new DeveloperMethodRepo();
 
-            _devRepo.CreateDeveloper();
+            Developer dev1 = _devRepo.CreateDeveloper();
 
-            
+            _teamRepo.CreateDevTeam();
 
-            
+            _teamRepo.AddDeveloperToTeam();
+
+
+
+
         }
     }
 }

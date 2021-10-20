@@ -9,7 +9,7 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
 
     public class DevTeamMethodRepo
     {
-        public bool CreateDevTeam()
+        public DevTeam CreateDevTeam()
         {
             DevTeam newTeam = new DevTeam();
 
@@ -26,7 +26,7 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
                     newTeam.TeamName = input;
                     Console.WriteLine($"Okay, the team name is: {newTeam.TeamName}");
                     Console.ReadKey();
-                    return true;
+                    return newTeam;
                 }
                 else if (inputLength > 12)
                 {
@@ -37,7 +37,7 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
                     Console.WriteLine("Please try again");
                 }
             }
-            return false;
+            return null;
         }
 
         public bool AddDeveloperToTeam(Developer developer, DevTeam teamToBeAdded)
@@ -87,9 +87,28 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
             }
             return false;
         }
-        public void ReadDeveloperByID(int devID)
+        public void ReadDeveloperByID(DevTeam team, int devID)
         {
             //locates a developer by their ID
+            foreach (KeyValuePair<int, Developer> kvp in team.DevDictionary)
+            {
+                Developer developer = kvp.Value;
+                if (developer.DeveloperID == devID)
+                {
+                    Console.WriteLine($"Here is all the info we have on {developer.FirstName} {developer.LastName}:\n" +
+                        $"DevID:    {developer.DeveloperID}\n" +
+                        $"-----\n" +
+                        $"Role:     {developer.DevRole}\n" +
+                        $"-----" +
+                        $"Age:      {developer.Age}\n" +
+                        $"-----\n" +
+                        $"Gender:   {developer.Gender}\n" +
+                        $"-----");
+                    Console.ReadKey();
+                }
+
+            }
+
         }
 
         public DevTeamMethodRepo()

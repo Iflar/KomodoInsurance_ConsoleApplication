@@ -10,7 +10,7 @@ namespace KomodoInsurance_Repository.DeveloperFiles
     public class DeveloperMethodRepo
     {
 
-        public bool CreateDeveloper()
+        public Developer CreateDeveloper()
         {
             Developer developer = new Developer();
             Console.WriteLine("You've hired a new developer, please fill out the neccisary information.");
@@ -140,10 +140,7 @@ namespace KomodoInsurance_Repository.DeveloperFiles
                         break;
                 }
             }
-
-
-
-            return false;
+            return developer;
         }
 
         public void UpdateDeveloperInfo(Developer developer)
