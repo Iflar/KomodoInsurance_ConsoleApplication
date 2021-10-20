@@ -49,6 +49,7 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
             bool wasAdded = teamToBeAdded.DevDictionary.Count > startCount ? true : false;
             return wasAdded;
         }
+
         public bool RemoveDeveloperFromTeamByID(DevTeam devTeam, int devID)
         {
             //Removes a developer from the team by ID
@@ -68,9 +69,23 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
             }
             return default;
         }
-        public void UpdateDeveloperRolesInTeam()
+
+        public bool UpdateDeveloperRoleInTeam(DevTeam team, int devID, Role newRole)
         {
             // Takes in a developer object and changes the role of that developer on the team
+            foreach (KeyValuePair<int, Developer> kvp in team.DevDictionary)
+            {
+                Developer developer = kvp.Value;
+                if (developer.DeveloperID == devID)
+                {
+                    developer.DevRole = newRole;
+                    Console.WriteLine($"{developer.FirstName} {developer.LastName}'s new role is: {developer.DevRole}");
+                    Console.ReadKey();
+                    return true;
+                }
+
+            }
+            return false;
         }
         public void ReadDeveloperByID(int devID)
         {

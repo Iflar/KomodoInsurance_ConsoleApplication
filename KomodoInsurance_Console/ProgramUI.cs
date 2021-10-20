@@ -15,7 +15,11 @@ namespace KomodoInsurance_Console
             DevTeamMethodRepo _teamRepo = new DevTeamMethodRepo();
             DeveloperMethodRepo _devRepo = new DeveloperMethodRepo();
 
-            _teamRepo.CreateDevTeam();
+            _devRepo.CreateDeveloper();
+
+            
+
+            
         }
     }
 }

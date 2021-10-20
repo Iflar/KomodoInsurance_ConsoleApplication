@@ -17,31 +17,19 @@ namespace KomodoInsurance_Repository
         public int Age { get; set; }
         public Gender Gender { get; set; }
         public Role DevRole { get; set; }
-        public DateTime DateJoinedTeam { get; set; }
-        public int YearsOnTeam
-        {
-            get
-            {
-                DateTime today = DateTime.Today;
-
-                return today.Year - DateJoinedTeam.Year;
-            }
-        }
 
         /*basic constructor*/
         public Developer() { }
 
         /*Overloaded constructor*/
-        public Developer(int developerID, string firstName, string lastName, int age, Gender gender, Role devRole, DateTime dateJoinedTeam, bool isTeamLead)
+        public Developer(int developerID, string firstName, string lastName, int age, Gender gender, Role devRole, bool isTeamLead)
         {
-
             DeveloperID = developerID;
             FirstName = firstName;
             LastName = lastName;
             Age = age;
             Gender = gender;
             DevRole = devRole;
-            DateJoinedTeam = dateJoinedTeam;
         }
 
         public int GetDevTeamDictionaryCount(DevTeam devTeam)
