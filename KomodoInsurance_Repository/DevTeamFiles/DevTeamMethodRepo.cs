@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace KomodoInsurance_Repository.DeveloperTeamFiles
 {
-
     public class DevTeamMethodRepo
     {
-        public DevTeam CreateDevTeam()
+        //this list is used to contain devteams and allow searching trough devteam props in other methods.
+        private readonly List<DevTeam> _teamDirectory = new List<DevTeam>();
+        public string CreateDevTeam()
         {
             DevTeam newTeam = new DevTeam();
 
@@ -26,7 +27,8 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
                     newTeam.TeamName = input;
                     Console.WriteLine($"Okay, the team name is: {newTeam.TeamName}");
                     Console.ReadKey();
-                    return newTeam;
+                    _teamDirectory.Add(newTeam);
+                    return newTeam.TeamName;
                 }
                 else if (inputLength > 12)
                 {
@@ -40,14 +42,31 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
             return null;
         }
 
-        public bool AddDeveloperToTeam(Developer developer, DevTeam teamToBeAdded)
+        public bool AddDeveloperToTeam(Developer developer, string teamName)
         {
+           DevTeam teamToBeAdded GetTeamByName(teamName)
             int startCount = teamToBeAdded.DevDictionary.Count;
 
             teamToBeAdded.DevDictionary.Add(developer.DeveloperID, developer);
 
             bool wasAdded = teamToBeAdded.DevDictionary.Count > startCount ? true : false;
             return wasAdded;
+        }
+
+        public DevTeam GetTeamByName(string teamName)
+        {
+            foreach (DevTeam team in _teamDirectory)
+            {
+                if (teamName == team.TeamName)
+                {
+                    return team;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return null;
         }
 
         public bool RemoveDeveloperFromTeamByID(DevTeam devTeam, int devID)
