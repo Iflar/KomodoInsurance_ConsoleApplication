@@ -16,6 +16,10 @@ namespace KomodoInsurance_Console
 
         public void Run()
         {
+            RunMenu();
+        }
+        public void RunMenu()
+        {
             bool ContinueToRun = true;
             while (ContinueToRun)
             {
@@ -45,13 +49,13 @@ namespace KomodoInsurance_Console
                         RemoveDeveloperFromTeam();
                         break;
                     case "5":
-                        
+
                         break;
                     case "6":
 
                         break;
                     case "7":
-
+                        UpdateDeveloperInfo();
                         break;
                     default:
                         Console.WriteLine("Enter 1-3 for your selection");
@@ -148,7 +152,6 @@ namespace KomodoInsurance_Console
             {
                 try
                 {
-
                     bool runNumCheckLoop = true;
                     while (runNumCheckLoop == true)
                     {
@@ -210,7 +213,7 @@ namespace KomodoInsurance_Console
                         break;
                 }
             }
-            //call add dev to repo here
+            _devRepo.AddDevToDirectory(developer);
             return developer.DeveloperID;
         }
         public bool CreateDevTeam()
@@ -261,7 +264,7 @@ namespace KomodoInsurance_Console
             if (targetIndex >= 0 && targetIndex < teamList.Count)
             {
                 DevTeam SelectedTeam = teamList[targetIndex];
-                foreach(KeyValuePair<int, Developer> developer in SelectedTeam.DevDictionary)
+                foreach (KeyValuePair<int, Developer> developer in SelectedTeam.DevDictionary)
                 {
                     Console.WriteLine("now we're getting somewhere...");
                     Console.ReadKey();
@@ -341,6 +344,88 @@ namespace KomodoInsurance_Console
             bool wasAdded = teamToBeAdded.DevDictionary.Count > startCount ? true : false;
             return wasAdded;
         }
+        public void UpdateDeveloperInfo()
+        {
+            //Takes in a developerID and updates any of it's information
+            List<Developer> devList = _devRepo.GetAllDevelopers();
+            Console.WriteLine("Please insert developer ID");
+            bool runIDLoop = true;
+            while (runIDLoop == true)
+            {
+                try
+                {
+                    bool runNumCheckLoop = true;
+                    while (runNumCheckLoop == true)
+                    {
+                        int devID = int.Parse(Console.ReadLine());
+                        foreach (Developer dev in devList)
+                        {
+                            if (devID == dev.DeveloperID)
+                            {
+                                Console.WriteLine($"What would you like to update for {dev.FirstName} {dev.LastName}?");
+                                Console.WriteLine("choose from the following:\n" +
+                                    "1. Name - first and last\n" +
+                                    "2. Last name\n" +
+                                    "3. First name\n" +
+                                    "4. Role\n" +
+                                    "5. Gender\n" +
+                                    "6. Age");
+                                string input = Console.ReadLine();
+                                switch (input)
+                                {
+                                    case "1":
+                                        ChangeFirstAndLastName(dev);
+                                        break;
+                                    case "2":
+                                        ChangeLastName(dev);
+                                        break;
+                                    case "3":
+                                        ChangeFirstName(dev);
+                                        break;
+                                    case "4":
+                                        ChangeRole(dev);
+                                        break;
+                                    case "5":
+                                        ChangeGender(dev);
+                                        break;
+                                    case "6":
+                                        ChangeAge(dev);
+                                        break;
+                                    default:
+                                        Console.WriteLine("Enter 1-4 for your selection");
+                                        Console.WriteLine("Press any key to continue.");
+                                        Console.ReadKey();
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("No developer with that ID existis whithin out database.");
+                                Console.ReadKey();
+                            }
+                        }
+                        if (devID > 0)
+                        {
+
+                            Console.Clear();
+                            runNumCheckLoop = false;
+                            runIDLoop = false;
+                        }
+                        else
+                        {
+                            Console.Clear();
+                            Console.WriteLine("Please enter a number greater than 0");
+                            Console.WriteLine("Press enter to try again");
+                            Console.ReadKey();
+                        }
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Please enter a valid intager");
+                }
+            }
+        }
         public bool UpdateDeveloperRoleInTeam(DevTeam team, int devID, Role newRole)
         {
             // Takes in a developer object and changes the role of that developer on the team
@@ -358,7 +443,6 @@ namespace KomodoInsurance_Console
             }
             return false;
         }
-        
         public void ChangeFirstAndLastName(Developer developer)
         {
             Console.WriteLine($"What is their new first name?");
