@@ -8,7 +8,7 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
 {
     public class DevTeamMethodRepo
     {
-        //this list is used to contain devteams and allow searching trough devteam props in other methods.
+        //this list is used to contain devteams to then be accesed in other methods.
         private readonly List<DevTeam> _teamDirectory = new List<DevTeam>();
         public string CreateDevTeam()
         {
@@ -44,7 +44,8 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
 
         public bool AddDeveloperToTeam(Developer developer, string teamName)
         {
-           DevTeam teamToBeAdded GetTeamByName(teamName)
+           DevTeam teamToBeAdded  = GetTeamByName(teamName);
+
             int startCount = teamToBeAdded.DevDictionary.Count;
 
             teamToBeAdded.DevDictionary.Add(developer.DeveloperID, developer);
@@ -129,12 +130,6 @@ namespace KomodoInsurance_Repository.DeveloperTeamFiles
             }
 
         }
-
-        public DevTeamMethodRepo()
-        {
-            DevTeam _team1 = new DevTeam();
-        }
-
     }
 
 
