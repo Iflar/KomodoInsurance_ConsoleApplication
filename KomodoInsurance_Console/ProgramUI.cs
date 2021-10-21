@@ -49,10 +49,10 @@ namespace KomodoInsurance_Console
                         RemoveDeveloperFromTeam();
                         break;
                     case "5":
-
+                        DeleteDevTeam();
                         break;
                     case "6":
-
+                        
                         break;
                     case "7":
                         UpdateDeveloperInfo();
@@ -297,6 +297,10 @@ namespace KomodoInsurance_Console
                 devCount++;
                 Console.WriteLine($"{devCount}. {developer.FirstName} {developer.LastName}");
             }
+        }
+        public void DeleteDevTeam()
+        {
+            Console.WriteLine("Whitch team would you like to delete");
         }
         public void DeleteTeam()
         {
