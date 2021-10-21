@@ -32,29 +32,36 @@ namespace KomodoInsurance_Console
                     "4. Remove developer from team\n" +
                     "5. Delete DevTeam\n" +
                     "6. Update DeveTeam's roles\n" +
-                    "7. Update developer information\n");
+                    "7. Update developer information\n" +
+                    "8. Add multiple devs to team");
                 string input = Console.ReadLine();
                 switch (input)
                 {
                     case "1":
+                        Console.Clear();
                         CreateDeveloper();
                         break;
                     case "2":
+                        Console.Clear();
                         CreateDevTeam();
                         break;
                     case "3":
+                        Console.Clear();
                         AddDeveloperToTeam();
                         break;
                     case "4":
+                        Console.Clear();
                         RemoveDeveloperFromTeam();
                         break;
                     case "5":
+                        Console.Clear();
                         DeleteDevTeam();
                         break;
                     case "6":
-                        
+
                         break;
                     case "7":
+                        Console.Clear();
                         UpdateDeveloperInfo();
                         break;
                     default:
@@ -72,6 +79,7 @@ namespace KomodoInsurance_Console
             Developer developer = new Developer();
             Console.WriteLine("You've hired a new developer, please fill out the neccisary information.");
             Console.ReadKey();
+            Console.Clear();
             bool runGenderLoop = true;
             while (runGenderLoop == true)
             {
@@ -84,18 +92,22 @@ namespace KomodoInsurance_Console
                 switch (input)
                 {
                     case "1":
+                        Console.Clear();
                         developer.Gender = Gender.Male;
                         runGenderLoop = false;
                         break;
                     case "2":
+                        Console.Clear();
                         developer.Gender = Gender.Female;
                         runGenderLoop = false;
                         break;
                     case "3":
+                        Console.Clear();
                         developer.Gender = Gender.Unspecified;
                         runGenderLoop = false;
                         break;
                     default:
+                        Console.Clear();
                         Console.WriteLine("Enter 1-3 for your selection");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadKey();
@@ -280,7 +292,64 @@ namespace KomodoInsurance_Console
         }
         public void AddDeveloperToTeam()
         {
-            Console.WriteLine("Waht team would you like add the developer to?");
+            List<DevTeam> teamList = _teamRepo.GetAllTeams();
+            int teamCheck = teamList.Count();
+
+            if (teamCheck > 0)
+            {
+                Console.WriteLine("What team would you like add the developer to?");
+                int count = 0;
+
+                foreach (DevTeam team in teamList)
+                {
+                    count++;
+                    Console.WriteLine($"{count}. {team.TeamName}");
+                }
+
+                int TargetTeam = int.Parse(Console.ReadLine());
+                int targetIndex = TargetTeam - 1;
+                if (targetIndex >= 0 && targetIndex < teamList.Count)
+                {
+                    DevTeam SelectedTeam = teamList[targetIndex];
+
+
+                    List<Developer> developerList = _devRepo.GetAllDevelopers();
+                    int devCheck = developerList.Count();
+
+                    if (devCheck > 0)
+                    {
+                        Console.WriteLine("Whitch developer would you like to add?");
+                        int dCount = 0;
+                        foreach (Developer developer in developerList)
+                        {
+                            dCount++;
+                            Console.WriteLine($"{count}. {developer.FirstName} {developer.LastName} ID#: {developer.DeveloperID}");
+                        }
+
+                        int TargetDev = int.Parse(Console.ReadLine());
+                        int targetDevIndex = TargetDev - 1;
+                        if (targetDevIndex >= 0 && targetDevIndex < developerList.Count)
+                        {
+                            Developer SelectedDeveloper = developerList[targetDevIndex];
+
+                            SelectedTeam.DevDictionary.Add(SelectedDeveloper.DeveloperID, SelectedDeveloper);
+                            
+                            Console.ReadKey();
+                        }
+                    }
+                }
+                Console.WriteLine("Press any key to continue....");
+                Console.ReadKey();
+            }
+            else
+            {
+                Console.WriteLine("It seems we need to create a developer team first.");
+                Console.ReadKey();
+            }
+        }
+        public void DeleteDevTeam()
+        {
+            Console.WriteLine("Whitch team would you like to delete?");
             List<DevTeam> teamList = _teamRepo.GetAllTeams();
             int count = 0;
             foreach (DevTeam team in teamList)
@@ -290,17 +359,25 @@ namespace KomodoInsurance_Console
             }
 
 
-            List<Developer> developerList = _devRepo.GetAllDevelopers();
-            int devCount = 0;
-            foreach (Developer developer in developerList)
+            int TargetTeam = int.Parse(Console.ReadLine());
+            int targetIndex = TargetTeam - 1;
+            if (targetIndex >= 0 && targetIndex < teamList.Count)
             {
-                devCount++;
-                Console.WriteLine($"{devCount}. {developer.FirstName} {developer.LastName}");
+                DevTeam SelectedTeam = teamList[targetIndex];
+                foreach (KeyValuePair<int, Developer> developer in SelectedTeam.DevDictionary)
+                {
+
+                    Console.WriteLine("now we're getting somewhere...");
+                    Console.ReadKey();
+                }
             }
-        }
-        public void DeleteDevTeam()
-        {
-            Console.WriteLine("Whitch team would you like to delete");
+            else
+            {
+                Console.WriteLine("No content has that ID");
+            }
+            Console.WriteLine("Press any key to continue....");
+            Console.ReadKey();
+
         }
         public void DeleteTeam()
         {
@@ -378,22 +455,34 @@ namespace KomodoInsurance_Console
                                 switch (input)
                                 {
                                     case "1":
-                                        ChangeFirstAndLastName(dev);
+                                        Console.Clear();
+                                        Console.WriteLine($"What is their new first name?");
+                                        _devRepo.ChangeFirstName(dev);
+                                        Console.Clear();
+                                        Console.WriteLine($"What is their new last name?");
+                                        _devRepo.ChangeLastName(dev);
                                         break;
                                     case "2":
-                                        ChangeLastName(dev);
+                                        Console.Clear();
+                                        Console.WriteLine($"What is their new last name?");
+                                        _devRepo.ChangeLastName(dev);
                                         break;
                                     case "3":
-                                        ChangeFirstName(dev);
+                                        Console.Clear();
+                                        Console.WriteLine($"What is their new first name?");
+                                        _devRepo.ChangeFirstName(dev);
                                         break;
                                     case "4":
-                                        ChangeRole(dev);
+                                        Console.Clear();
+                                        _devRepo.ChangeRole(dev);
                                         break;
                                     case "5":
-                                        ChangeGender(dev);
+                                        Console.Clear();
+                                        _devRepo.ChangeGender(dev);
                                         break;
                                     case "6":
-                                        ChangeAge(dev);
+                                        Console.Clear();
+                                        _devRepo.ChangeAge(dev);
                                         break;
                                     default:
                                         Console.WriteLine("Enter 1-4 for your selection");
@@ -447,125 +536,7 @@ namespace KomodoInsurance_Console
             }
             return false;
         }
-        public void ChangeFirstAndLastName(Developer developer)
-        {
-            Console.WriteLine($"What is their new first name?");
-            string devFirstName = Console.ReadLine();
-            developer.FirstName = devFirstName;
-            Console.Clear();
 
-            Console.WriteLine($"What is their new last name?");
-            string devLastName = Console.ReadLine();
-            developer.LastName = devLastName;
-            Console.Clear();
-
-        }
-        public void ChangeLastName(Developer developer)
-        {
-            Console.WriteLine($"What is their new last name?");
-            string devLastName = Console.ReadLine();
-            developer.LastName = devLastName;
-            Console.Clear();
-        }
-        public void ChangeFirstName(Developer developer)
-        {
-            Console.WriteLine($"What is their new first name?");
-            string devFirstName = Console.ReadLine();
-            developer.FirstName = devFirstName;
-            Console.Clear();
-        }
-        public void ChangeRole(Developer developer)
-        {
-            bool runRoleLoop = true;
-            while (runRoleLoop == true)
-            {
-                Console.Clear();
-                Console.WriteLine("Select new Dev Role:\n" +
-                    "1. QA\n" +
-                    "2. FrontEnd\n" +
-                    "3. BackEnd\n" +
-                    "4. UX Designer");
-                string input = Console.ReadLine();
-                switch (input)
-                {
-                    case "1":
-                        developer.DevRole = Role.QA;
-                        runRoleLoop = false;
-                        break;
-                    case "2":
-                        developer.DevRole = Role.FrontEnd;
-                        runRoleLoop = false;
-                        break;
-                    case "3":
-                        developer.DevRole = Role.BackEnd;
-                        runRoleLoop = false;
-                        break;
-                    case "4":
-                        developer.DevRole = Role.UX;
-                        runRoleLoop = false;
-                        break;
-                    default:
-                        Console.WriteLine("Enter 1-4 for your selection");
-                        Console.WriteLine("Press any key to continue.");
-                        Console.ReadKey();
-                        break;
-                }
-            }
-        }
-        public void ChangeGender(Developer developer)
-        {
-            bool runGenderLoop = true;
-            while (runGenderLoop == true)
-            {
-                Console.Clear();
-                Console.WriteLine("Select new gender:\n" +
-                    "1. Male\n" +
-                    "2. Female\n" +
-                    "3. Unspecified");
-                string input = Console.ReadLine();
-                switch (input)
-                {
-                    case "1":
-                        developer.Gender = Gender.Male;
-                        runGenderLoop = false;
-                        break;
-                    case "2":
-                        developer.Gender = Gender.Female;
-                        runGenderLoop = false;
-                        break;
-                    case "3":
-                        developer.Gender = Gender.Unspecified;
-                        runGenderLoop = false;
-                        break;
-                    default:
-                        Console.WriteLine("Enter 1-3 for your selection");
-                        Console.WriteLine("Press any key to continue.");
-                        Console.ReadKey();
-                        break;
-                }
-            }
-
-        }
-        public void ChangeAge(Developer developer)
-        {
-            bool runAgeLoop = true;
-            while (runAgeLoop == true)
-            {
-                try
-                {
-                    Console.WriteLine("Enter new age");
-                    int age = int.Parse(Console.ReadLine());
-                    developer.Age = age;
-                    Console.Clear();
-                    runAgeLoop = false;
-                }
-                catch
-                {
-                    Console.WriteLine("Please enter a valid whole number");
-                }
-
-            }
-        }
     }
 
 }
