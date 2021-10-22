@@ -11,8 +11,8 @@ namespace KomodoInsurance_Console
 {
     class ProgramUI
     {
-        private readonly DevTeamMethodRepo _teamRepo = new DevTeamMethodRepo();
-        private readonly DeveloperMethodRepo _devRepo = new DeveloperMethodRepo();
+        protected readonly DevTeamMethodRepo _teamRepo = new DevTeamMethodRepo();
+        protected readonly DeveloperMethodRepo _devRepo = new DeveloperMethodRepo();
 
         public void Run()
         {
@@ -64,15 +64,17 @@ namespace KomodoInsurance_Console
                         Console.Clear();
                         UpdateDeveloperInfo();
                         break;
+                    case "8":
+                        Console.Clear();
+                        AddMultipleDevsToTeam();
+                        break;
                     default:
                         Console.WriteLine("Enter 1-7 for your selection");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadKey();
                         break;
                 }
-
             }
-
         }
         public int CreateDeveloper()
         {
@@ -294,7 +296,7 @@ namespace KomodoInsurance_Console
                         {
                             Developer developer = kvp.Value;
                             dCount++;
-                            Console.WriteLine($"{count}. {developer.FirstName} {developer.LastName} ID#: {developer.DeveloperID}");
+                            Console.WriteLine($"{dCount}. {developer.FirstName} {developer.LastName} ID#: {developer.DeveloperID}");
                             devIndex.Add(developer);
                         }
 
@@ -352,7 +354,7 @@ namespace KomodoInsurance_Console
                         foreach (Developer developer in developerList)
                         {
                             dCount++;
-                            Console.WriteLine($"{count}. {developer.FirstName} {developer.LastName} ID#: {developer.DeveloperID}");
+                            Console.WriteLine($"{dCount}. {developer.FirstName} {developer.LastName} ID#: {developer.DeveloperID}");
                         }
 
                         int TargetDev = int.Parse(Console.ReadLine());
@@ -362,7 +364,9 @@ namespace KomodoInsurance_Console
                             Developer SelectedDeveloper = developerList[targetDevIndex];
 
                             SelectedTeam.DevDictionary.Add(SelectedDeveloper.DeveloperID, SelectedDeveloper);
-                            
+
+                            Console.WriteLine("Developer Added");
+
                             Console.ReadKey();
                         }
                     }
@@ -374,6 +378,61 @@ namespace KomodoInsurance_Console
             {
                 Console.WriteLine("It seems we need to create a developer team first.");
                 Console.ReadKey();
+            }
+        }
+        public void AddMultipleDevsToTeam()
+        {
+           
+            bool shouldRun = true;
+            while (shouldRun == true)
+            {
+                Console.WriteLine("You may add up to 4 developers to a team at once.");
+                Console.WriteLine("How many would you like to add?");
+                try
+                {
+                    int numToAdd = int.Parse(Console.ReadLine());
+                    Console.Clear();
+                    if (numToAdd < 5 && numToAdd > 0)
+                    {
+                        List<DevTeam> teamCheckList = _teamRepo.GetAllTeams();
+                        int teamCheck = teamCheckList.Count();
+                        List<Developer> devCheckList = _devRepo.GetAllDevelopers();
+                        int devCheck = devCheckList.Count();
+                        if (numToAdd >= devCheck)
+                        {
+                            DevTeam teamToAdd = _teamRepo.SelectDevTeam();
+                            shouldRun = false;
+                            while (numToAdd > 0)
+                            {
+                                _devRepo.SelectDevelopers(teamToAdd);
+                                --numToAdd;
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("We don't have enough developers!");
+                        }
+                        
+                    }
+                    else if (numToAdd <= 0)
+                    {
+                        Console.WriteLine("please use a real number.");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                    else
+                    {
+                        Console.WriteLine("You cannot add more than 4 developers at a time.\n" +
+                            "Press any key to continue.");
+                        Console.ReadKey();
+                        Console.Clear();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Please enter a valid number.");
+                    Console.ReadKey();
+                }
             }
         }
         public void DeleteDevTeam()
@@ -441,18 +500,6 @@ namespace KomodoInsurance_Console
             Console.WriteLine("Press any key to continue....");
             Console.ReadKey();
 
-        }
-        public bool AddDeveloperToTeam(int devID, string teamName)
-        {
-            Developer developer = _devRepo.GetDeveloperByID(devID);
-            DevTeam teamToBeAdded = _teamRepo.GetTeamByName(teamName);
-
-            int startCount = teamToBeAdded.DevDictionary.Count;
-
-            teamToBeAdded.DevDictionary.Add(developer.DeveloperID, developer);
-
-            bool wasAdded = teamToBeAdded.DevDictionary.Count > startCount ? true : false;
-            return wasAdded;
         }
         public void UpdateDeveloperInfo()
         {
@@ -548,24 +595,5 @@ namespace KomodoInsurance_Console
                 }
             }
         }
-        public bool UpdateDeveloperRoleInTeam(DevTeam team, int devID, Role newRole)
-        {
-            // Takes in a developer object and changes the role of that developer on the team
-            foreach (KeyValuePair<int, Developer> kvp in team.DevDictionary)
-            {
-                Developer developer = kvp.Value;
-                if (developer.DeveloperID == devID)
-                {
-                    developer.DevRole = newRole;
-                    Console.WriteLine($"{developer.FirstName} {developer.LastName}'s new role is: {developer.DevRole}");
-                    Console.ReadKey();
-                    return true;
-                }
-
-            }
-            return false;
-        }
-
     }
-
 }

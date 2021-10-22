@@ -76,8 +76,40 @@ namespace KomodoInsurance_Repository.DeveloperFiles
             Console.WriteLine($"Developer Role is {devToRead.DevRole}");
         }
 
+        public void SelectDevelopers(DevTeam devTeam)
+        {
+            DevTeam SelectedTeam = devTeam;
+
+            List<Developer> developerList = GetAllDevelopers();
+            int devCheck = developerList.Count();
+
+            if (devCheck > 0)
+            {
+                Console.WriteLine("Whitch developer would you like to add?");
+                int dCount = 0;
+                foreach (Developer developer in developerList)
+                {
+                    dCount++;
+                    Console.WriteLine($"{dCount}. {developer.FirstName} {developer.LastName} ID#: {developer.DeveloperID}");
+                }
+
+                int TargetDev = int.Parse(Console.ReadLine());
+                int targetDevIndex = TargetDev;
+                if (targetDevIndex >= 0 && targetDevIndex < developerList.Count)
+                {
+                    Developer SelectedDeveloper = developerList[targetDevIndex];
+
+                    SelectedTeam.DevDictionary.Add(SelectedDeveloper.DeveloperID, SelectedDeveloper);
+
+                    Console.WriteLine("Developer Added");
+
+                    Console.ReadKey();
+                }
+            }
+        }
+
         //Update Methods:
-       
+
         public void ChangeLastName(Developer developer)
         {
             string devLastName = Console.ReadLine();
