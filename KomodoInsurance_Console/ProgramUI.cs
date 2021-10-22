@@ -65,7 +65,7 @@ namespace KomodoInsurance_Console
                         UpdateDeveloperInfo();
                         break;
                     default:
-                        Console.WriteLine("Enter 1-3 for your selection");
+                        Console.WriteLine("Enter 1-7 for your selection");
                         Console.WriteLine("Press any key to continue.");
                         Console.ReadKey();
                         break;
@@ -261,34 +261,63 @@ namespace KomodoInsurance_Console
         }
         public void RemoveDeveloperFromTeam()
         {
-            Console.WriteLine("What team do you want to remove the developer from?");
             List<DevTeam> teamList = _teamRepo.GetAllTeams();
-            int count = 0;
-            foreach (DevTeam team in teamList)
-            {
-                count++;
-                Console.WriteLine($"{count}. {team.TeamName}");
-            }
+            int teamCheck = teamList.Count();
 
-
-            int TargetTeam = int.Parse(Console.ReadLine());
-            int targetIndex = TargetTeam - 1;
-            if (targetIndex >= 0 && targetIndex < teamList.Count)
+            if (teamCheck > 0)
             {
-                DevTeam SelectedTeam = teamList[targetIndex];
-                foreach (KeyValuePair<int, Developer> developer in SelectedTeam.DevDictionary)
+                Console.WriteLine("What team would you like remove the developer from?");
+                int count = 0;
+
+                foreach (DevTeam team in teamList)
                 {
-                    Console.WriteLine("now we're getting somewhere...");
-                    Console.ReadKey();
+                    count++;
+                    Console.WriteLine($"{count}. {team.TeamName}");
                 }
+
+                int TargetTeam = int.Parse(Console.ReadLine());
+                int targetIndex = TargetTeam - 1;
+                if (targetIndex >= 0 && targetIndex < teamList.Count)
+                {
+                    DevTeam SelectedTeam = teamList[targetIndex];
+
+
+                    Dictionary<int, Developer> developerList = SelectedTeam.DevDictionary;
+                    int devCheck = developerList.Count();
+
+                    if (devCheck > 0)
+                    {
+                        Console.WriteLine("Which developer would you like to remove?");
+                        int dCount = 0;
+                        List<Developer> devIndex = new List<Developer>();
+                        foreach (KeyValuePair<int, Developer> kvp in developerList)
+                        {
+                            Developer developer = kvp.Value;
+                            dCount++;
+                            Console.WriteLine($"{count}. {developer.FirstName} {developer.LastName} ID#: {developer.DeveloperID}");
+                            devIndex.Add(developer);
+                        }
+
+                        int TargetDev = int.Parse(Console.ReadLine());
+                        int targetDevIndex = TargetDev - 1;
+                        if (targetDevIndex >= 0 && targetDevIndex < developerList.Count)
+                        {
+                            Developer SelectedDeveloper = devIndex[targetDevIndex];
+
+                            SelectedTeam.DevDictionary.Remove(SelectedDeveloper.DeveloperID);
+                            Console.WriteLine("Developer removed");
+                            Console.ReadKey();
+                        }
+                    }
+                }
+                Console.WriteLine("Press any key to continue....");
+                Console.ReadKey();
             }
             else
             {
-                Console.WriteLine("No content has that ID");
+                Console.WriteLine("It seems we need to create a developer team first.");
+                Console.ReadKey();
             }
-            Console.WriteLine("Press any key to continue....");
-            Console.ReadKey();
-
         }
         public void AddDeveloperToTeam()
         {
@@ -349,35 +378,35 @@ namespace KomodoInsurance_Console
         }
         public void DeleteDevTeam()
         {
-            Console.WriteLine("Whitch team would you like to delete?");
             List<DevTeam> teamList = _teamRepo.GetAllTeams();
-            int count = 0;
-            foreach (DevTeam team in teamList)
-            {
-                count++;
-                Console.WriteLine($"{count}. {team.TeamName}");
-            }
+            int teamCheck = teamList.Count();
 
-
-            int TargetTeam = int.Parse(Console.ReadLine());
-            int targetIndex = TargetTeam - 1;
-            if (targetIndex >= 0 && targetIndex < teamList.Count)
+            if (teamCheck > 0)
             {
-                DevTeam SelectedTeam = teamList[targetIndex];
-                foreach (KeyValuePair<int, Developer> developer in SelectedTeam.DevDictionary)
+                Console.WriteLine("What team would you like to delete?");
+                int count = 0;
+                foreach (DevTeam team in teamList)
                 {
-
-                    Console.WriteLine("now we're getting somewhere...");
-                    Console.ReadKey();
+                    count++;
+                    Console.WriteLine($"{count}. {team.TeamName}");
                 }
+
+                int TargetTeam = int.Parse(Console.ReadLine());
+                int targetIndex = TargetTeam - 1;
+                if (targetIndex >= 0 && targetIndex < teamList.Count)
+                {
+                    DevTeam SelectedTeam = teamList[targetIndex];
+                    teamList.Remove(SelectedTeam);
+                    Console.WriteLine("Team deleted");
+                }
+                Console.WriteLine("Press any key to continue....");
+                Console.ReadKey();
             }
             else
             {
-                Console.WriteLine("No content has that ID");
+                Console.WriteLine("There are no dev teams to delete...");
+                Console.ReadKey();
             }
-            Console.WriteLine("Press any key to continue....");
-            Console.ReadKey();
-
         }
         public void DeleteTeam()
         {
