@@ -31,9 +31,8 @@ namespace KomodoInsurance_Console
                     "3. Add developer to team\n" +
                     "4. Remove developer from team\n" +
                     "5. Delete DevTeam\n" +
-                    "6. Update DeveTeam's roles\n" +
-                    "7. Update developer information\n" +
-                    "8. Add multiple devs to team");
+                    "6. Add multiple devs to team\n" +
+                    "7. Update developer information");
                 string input = Console.ReadLine();
                 switch (input)
                 {
@@ -58,15 +57,12 @@ namespace KomodoInsurance_Console
                         DeleteDevTeam();
                         break;
                     case "6":
-
+                        Console.Clear();
+                        AddMultipleDevsToTeam();
                         break;
                     case "7":
                         Console.Clear();
                         UpdateDeveloperInfo();
-                        break;
-                    case "8":
-                        Console.Clear();
-                        AddMultipleDevsToTeam();
                         break;
                     default:
                         Console.WriteLine("Enter 1-7 for your selection");
@@ -398,14 +394,19 @@ namespace KomodoInsurance_Console
                         int teamCheck = teamCheckList.Count();
                         List<Developer> devCheckList = _devRepo.GetAllDevelopers();
                         int devCheck = devCheckList.Count();
-                        if (numToAdd >= devCheck)
+                        if (numToAdd <= devCheck)
                         {
                             DevTeam teamToAdd = _teamRepo.SelectDevTeam();
+                            int teamCount = teamToAdd.DevDictionary.Count();
                             shouldRun = false;
+                            int numAdded = 0;
                             while (numToAdd > 0)
                             {
                                 _devRepo.SelectDevelopers(teamToAdd);
+
                                 --numToAdd;
+                                ++numAdded;
+                                Console.WriteLine($"{numAdded} developers added");
                             }
                         }
                         else

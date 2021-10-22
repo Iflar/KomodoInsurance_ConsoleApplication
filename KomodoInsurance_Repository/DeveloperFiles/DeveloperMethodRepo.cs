@@ -76,9 +76,8 @@ namespace KomodoInsurance_Repository.DeveloperFiles
             Console.WriteLine($"Developer Role is {devToRead.DevRole}");
         }
 
-        public void SelectDevelopers(DevTeam devTeam)
+        public Developer SelectDevelopers()
         {
-            DevTeam SelectedTeam = devTeam;
 
             List<Developer> developerList = GetAllDevelopers();
             int devCheck = developerList.Count();
@@ -98,14 +97,11 @@ namespace KomodoInsurance_Repository.DeveloperFiles
                 if (targetDevIndex >= 0 && targetDevIndex < developerList.Count)
                 {
                     Developer SelectedDeveloper = developerList[targetDevIndex];
-
-                    SelectedTeam.DevDictionary.Add(SelectedDeveloper.DeveloperID, SelectedDeveloper);
-
-                    Console.WriteLine("Developer Added");
-
-                    Console.ReadKey();
+                    return SelectedDeveloper;
                 }
             }
+            Console.WriteLine("There are no developers!");
+            return null;
         }
 
         //Update Methods:
