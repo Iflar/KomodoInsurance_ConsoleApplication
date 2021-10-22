@@ -402,8 +402,8 @@ namespace KomodoInsurance_Console
                             int numAdded = 0;
                             while (numToAdd > 0)
                             {
-                                _devRepo.SelectDevelopers(teamToAdd);
-
+                                Developer devToAdd = _devRepo.SelectDevelopers();
+                                _devRepo.AddDevToTeam(devToAdd, teamToAdd); 
                                 --numToAdd;
                                 ++numAdded;
                                 Console.WriteLine($"{numAdded} developers added");

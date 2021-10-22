@@ -104,6 +104,15 @@ namespace KomodoInsurance_Repository.DeveloperFiles
             return null;
         }
 
+        public void AddDevToTeam(Developer newDevloper, DevTeam teamToAdd)
+        {
+            teamToAdd.DevDictionary.Add(newDevloper.DeveloperID, newDevloper);
+
+            Console.WriteLine("Developer Added");
+
+            Console.ReadKey();
+        }
+
         //Update Methods:
 
         public void ChangeLastName(Developer developer)
